@@ -1,11 +1,19 @@
+using UberChallange.Adapters;
+using UberChallange.Application.Services;
+using UberChallange.Infra.EmailSender.Mailgun;
+
+using DotNetEnv;
+Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<MailgunConfiguration>();
+builder.Services.AddScoped<IEmailSenderGateway, MailGunEmailSender>();
+builder.Services.AddScoped<EmailSenderService>();
 
 var app = builder.Build();
 
